@@ -6,15 +6,16 @@ import com.projetofinal.ticher.models.Teacher;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class SubjectRequest {
 
     @NotBlank
-    @Max(150)
+    @Size(min=2, max=200)
     private final String name;
 
     @NotBlank
-    @Max(1000)
+    @Size(min=2, max=200)
     private final String description;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
@@ -23,8 +24,8 @@ public class SubjectRequest {
         this.description = description;
     }
 
-    public Subject toSubject(Teacher teacher){
-        return new Subject(this.name, this.description, teacher);
+    public Subject toSubject() {
+        return new Subject(this.name, this.description);
     }
 
     @Override

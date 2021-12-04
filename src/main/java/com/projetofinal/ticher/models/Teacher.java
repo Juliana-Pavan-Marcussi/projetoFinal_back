@@ -22,8 +22,11 @@ public class Teacher extends Login {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "teachers", cascade = CascadeType.PERSIST)
-    private final Set<Subject> subjects = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "teacher_subjects",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private List<Subject> subjects = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "teachers")
     private final List<Evaluation> evaluations = new ArrayList<>();
@@ -35,24 +38,18 @@ public class Teacher extends Login {
     private Teacher() {
     }
 
-    public Teacher(String name, @Valid Set<SubjectRequest> subjectsList, String email, String password) {
+    public Teacher(String name, List<Subject> subjectsList, String email, String password) {
         super.email = email;
         super.password = password;
         this.name = name;
-        // add items do subjectsList para a propriedade subjects
-        this.subjects.addAll(subjectsList.stream()
-                // pra cada index da subjectsList ele usa
-                // o método pra transformar request em entity
-                .map(subjectRequest -> subjectRequest.toSubject(this))
-                // por fim joga as entity pra dentro da lista
-                .collect(Collectors.toSet()));
+        this.subjects = subjectsList;
     }
 
     public String getName() {
         return name;
     }
 
-    public Set<Subject> getSubjects() {
+    public List<Subject> getSubjects() {
         return subjects;
     }
 

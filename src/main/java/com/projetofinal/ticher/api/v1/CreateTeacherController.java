@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
 @RestController
@@ -20,11 +22,14 @@ import javax.validation.Valid;
 public class CreateTeacherController {
 
     private final TeacherRepository teacherRepository;
+    @PersistenceContext
+    private final EntityManager entityManager;
     private final Logger log = LoggerFactory.getLogger(CreateTeacherController.class);
 
     @Autowired
-    public CreateTeacherController(TeacherRepository teacherRepository) {
+    public CreateTeacherController(TeacherRepository teacherRepository, EntityManager entityManager) {
         this.teacherRepository = teacherRepository;
+        this.entityManager = entityManager;
     }
 
     @PostMapping
@@ -32,7 +37,7 @@ public class CreateTeacherController {
     public ResponseEntity<?> create(@RequestBody @Valid TeacherRequest request){
         log.info("[create.param.request] " + request.toString());
 
-        Teacher teacher =  request.toTeacher();
+        Teacher teacher =  request.toTeacher(entityManager);
         log.info("[request.toTeacher] " + teacher.toString());
 
         teacherRepository.save(teacher);

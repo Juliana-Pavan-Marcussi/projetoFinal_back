@@ -29,4 +29,8 @@ public class Student extends Login {
         super.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
 }

@@ -1,7 +1,5 @@
 package com.projetofinal.ticher.models;
 
-import com.projetofinal.ticher.models.enums.StatusClassEnum;
-
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -12,14 +10,7 @@ public class Class {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Double price;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private StatusClassEnum statusClass;
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     private TeacherAvailability teacherAvailability;
 
     @OneToOne
@@ -29,6 +20,18 @@ public class Class {
     private final Instant createdIn = Instant.now();
 
     @Deprecated
-    public Class() {}
+    private Class() {}
 
+    public Class(TeacherAvailability teacherAvailability, Student student) {
+        this.teacherAvailability = teacherAvailability;
+        this.student = student;
+    }
+
+    public TeacherAvailability getTeacherAvailability() {
+        return teacherAvailability;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
 }

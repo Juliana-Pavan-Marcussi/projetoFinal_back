@@ -1,6 +1,6 @@
 package com.projetofinal.ticher.models.enums;
 
-public enum StatusClassEnum {
+public enum StatusAvailability {
 
     OPEN, CLOSE
 

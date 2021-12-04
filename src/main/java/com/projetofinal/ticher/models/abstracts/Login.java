@@ -12,4 +12,7 @@ public abstract class Login {
     @Column(nullable = false)
     protected String password;
 
+    public String getEmail() {
+        return email;
+    }
 }

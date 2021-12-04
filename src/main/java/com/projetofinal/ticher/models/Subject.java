@@ -2,6 +2,8 @@ package com.projetofinal.ticher.models;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Subject {
@@ -16,20 +18,19 @@ public class Subject {
     @Column(nullable = false, length = 1000)
     private String description;
 
-    @ManyToOne
-    private Teacher teachers;
-
     @Column(nullable = false, updatable = false)
     private final Instant createdIn = Instant.now();
+
+    @ManyToMany(mappedBy="subjects")
+    private final List<Teacher> teachers = new ArrayList<>();
 
     @Deprecated
     private Subject() {
     }
 
-    public Subject(String name, String description, Teacher teachers) {
+    public Subject(String name, String description) {
         this.name = name;
         this.description = description;
-        this.teachers = teachers;
     }
 
     public String getName() {

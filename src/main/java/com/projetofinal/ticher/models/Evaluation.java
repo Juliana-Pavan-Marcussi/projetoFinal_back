@@ -23,6 +23,10 @@ public class Evaluation {
     @ManyToOne
     private Teacher teachers;
 
+    @Deprecated
+    private Evaluation() {
+    }
+
     public Evaluation(String title, String description, Integer score, Student students, Teacher teachers) {
         this.title = title;
         this.description = description;
@@ -31,4 +35,27 @@ public class Evaluation {
         this.teachers = teachers;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public Student getStudents() {
+        return students;
+    }
+
+    public Teacher getTeachers() {
+        return teachers;
+    }
 }

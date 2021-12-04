@@ -1,9 +1,12 @@
 package com.projetofinal.ticher.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.projetofinal.ticher.models.Subject;
 import com.projetofinal.ticher.models.Teacher;
 
+import javax.persistence.EntityManager;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,18 +25,23 @@ public class TeacherRequest {
     @Size(min=4)
     private final String password;
 
-    private final Set<SubjectRequest> subjects;
+    private final List<Long> subjectIds;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public TeacherRequest(String name, String email, String password, Set<SubjectRequest> subjects) {
+    public TeacherRequest(String name, String email, String password, List<Long> subjectIds) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.subjects = subjects;
+        this.subjectIds = subjectIds;
     }
 
-    public Teacher toTeacher() {
-        return new Teacher(this.name, this.subjects, this.email, this.password);
+    public Teacher toTeacher(EntityManager entityManager) {
+        List<Subject> subjectList = new ArrayList<>();
+        for (Long idSubject : subjectIds){
+            Subject subject = entityManager.find(Subject.class, idSubject);
+            subjectList.add(subject);
+        }
+        return new Teacher(this.name, subjectList, this.email, this.password);
     }
 
     @Override
@@ -42,7 +50,7 @@ public class TeacherRequest {
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", subjects=" + subjects +
+                ", subjects=" + subjectIds +
                 '}';
     }
 }

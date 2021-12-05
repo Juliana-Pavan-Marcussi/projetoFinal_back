@@ -22,6 +22,7 @@ public class CreateStudentController {
     }
 
     @PostMapping
+    @CrossOrigin(origins = "http://localhost:3000")
     @Transactional
     public ResponseEntity<?> create(@RequestBody StudentRequest request){
         Student student = request.toStudent();

@@ -22,6 +22,10 @@ public class Teacher extends Login {
     @Column(nullable = false)
     private String name;
 
+    private String cpf;
+
+    private String phone;
+
     @ManyToMany
     @JoinTable(name = "teacher_subjects",
             joinColumns = @JoinColumn(name = "teacher_id"),
@@ -47,6 +51,14 @@ public class Teacher extends Login {
 
     public String getName() {
         return name;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public List<Subject> getSubjects() {

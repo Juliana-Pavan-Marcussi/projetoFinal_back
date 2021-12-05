@@ -20,6 +20,14 @@ public class TeacherRequest {
     @Email
     private final String email;
 
+    @NotBlank
+    @Size(min=2)
+    private final String cpf;
+
+    @NotBlank
+    @Size(min=2)
+    private final String phone;
+
     @NotNull
     @NotBlank
     @Size(min=4)
@@ -28,9 +36,11 @@ public class TeacherRequest {
     private final List<Long> subjectIds;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public TeacherRequest(String name, String email, String password, List<Long> subjectIds) {
+    public TeacherRequest(String name, String email, String cpf, String phone,String password, List<Long> subjectIds) {
         this.name = name;
         this.email = email;
+        this.cpf = cpf;
+        this.phone = phone;
         this.password = password;
         this.subjectIds = subjectIds;
     }
@@ -49,6 +59,8 @@ public class TeacherRequest {
         return "TeacherRequest{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", subjects=" + subjectIds +
                 '}';

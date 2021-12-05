@@ -17,18 +17,28 @@ public class StudentRequest {
 
     @NotBlank
     @Size(min=4)
+    private final String cpf;
+
+    @NotBlank
+    @Size(min=4)
+    private final String phone;
+
+    @NotBlank
+    @Size(min=4)
     private final String password;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public StudentRequest(String name, String email, String password) {
+    public StudentRequest(String name, String email, String cpf, String phone, String password) {
         this.name = name;
         this.email = email;
+        this.cpf = cpf;
+        this.phone = phone;
         this.password = password;
     }
 
 
     public Student toStudent(){
-        return new Student(this.name, this.email, this.password);
+        return new Student(this.name, this.email, this.cpf, this.phone, this.password);
     }
 
 }
